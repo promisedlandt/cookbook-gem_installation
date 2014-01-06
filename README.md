@@ -5,6 +5,8 @@ If you are sick and tired of manually installing libxml2-dev and libxslt-dev, th
 
 Does not install the rubygems binary.
 
+You probably don't want to use this, it's not well done and semi abandoned, but I haven't found a better solution yet.
+
 # Warning
 
 Currently, the prequisites are hardcoded in libraries/gem_installation.rb
@@ -13,7 +15,7 @@ While a solution utilizing a dependency resolver would be great, for now this is
 
 # Platforms
 
-Tested on Ubuntu 12.04 and Debian 6.0.6.
+Tested on Ubuntu and Debian. Check [.kitchen.yml](https://github.com/promisedlandt/cookbook-gem_installation/blob/master/.kitchen.yml) for the exact versions tested.
 
 # Requirements
 

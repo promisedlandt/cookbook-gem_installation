@@ -12,7 +12,7 @@ module GemInstallation
       if gem_dependencies.values.keys.include?(gem_name)
         Array(value_for_platform(gem_dependencies.values[gem_name]))
       else
-        Chef::Log.warn "No dependencies found for #{ gem_name }. This might mean the gem has no dependencies, or it's dependencies are not known to this cookbook"
+        Chef::Log.warn "No dependencies found for #{ gem_name }. This might mean the gem has no dependencies, or its dependencies are not known to this cookbook"
         []
       end
     end

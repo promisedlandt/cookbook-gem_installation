@@ -1,3 +1,10 @@
-source 'https://rubygems.org'
+source "https://rubygems.org"
 
-gem 'berkshelf'
+gem "berkshelf"
+
+group :integration do
+  gem "foodcritic"
+  gem "test-kitchen"
+  gem "kitchen-vagrant"
+end
+

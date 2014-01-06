@@ -1,0 +1,37 @@
+---
+kitchen:
+  log_level: debug
+
+driver:
+  name: vagrant
+
+platforms:
+- name: debian-6.0.8
+- name: debian-7.2.0
+- name: ubuntu-10.04
+- name: ubuntu-12.04
+- name: ubuntu-12.10
+- name: ubuntu-13.04
+- name: ubuntu-13.10
+
+suites:
+  - name: default
+    run_list: &default_run_list
+      - recipe[gem_installation]
+    attributes: {}
+  - name: gem_installation_before_convergence
+    run_list:
+      - recipe[gem_installation::_test_kitchen_gem_installation]
+    attributes: {}
+  - name: gem_installation_during_convergence
+    run_list:
+      - recipe[gem_installation::_test_kitchen_gem_installation_during_convergence]
+    attributes: {}
+  - name: dependencies_during_convergence
+    run_list:
+      - recipe[gem_installation::_test_kitchen_dependencies]
+    attributes: {}
+  - name: dependencies_during_convergence
+    run_list:
+      - recipe[gem_installation::test_kitchen_dependencies_before_convergence]
+    attributes: {}

@@ -13,4 +13,5 @@ action :install_before_convergence do
 
   # gem installation before convergence
   chef_gem new_resource.gem_name
+  require new_resource.gem_name
 end
