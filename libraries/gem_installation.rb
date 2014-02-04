@@ -1,18 +1,21 @@
 module GemInstallation
   module Dependencies
     GEM_DEPENDENCIES = {
-      ["nokogiri", "fog"] => {
-        ["debian", "ubuntu"] => {
+      %w(fog bitlbee_config) => {
+        gems: %w(nokogiri)
+      },
+      "nokogiri" => {
+        %w(debian ubuntu) => {
           "default" => %w(libxslt-dev libxml2-dev)
         }
-      }
+      },
     }.freeze
 
     def dependencies_for_gem(gem_name)
       if gem_dependencies.values.keys.include?(gem_name)
         Array(value_for_platform(gem_dependencies.values[gem_name]))
       else
-        Chef::Log.warn "No dependencies found for #{ gem_name }. This might mean the gem has no dependencies, or its dependencies are not known to this cookbook"
+        Chef::Log.debug "No dependencies found for #{ gem_name }. This might mean the gem has no dependencies, or its dependencies are not known to this cookbook"
         []
       end
     end
@@ -22,17 +25,35 @@ module GemInstallation
     end
 
     class GemDependencies
-      attr_reader :values
-      def initialize(dependency_hash)
-        @values = {}
+      attr_reader :values, :gems_to_postprocess
 
-        dependency_hash.each do |gem_names, dependencies|
+      def initialize(dependency_hash)
+        require "deep_merge" # not pretty, but doesn't even register compared to the resolver shit
+
+        @values = dependency_hash.each_with_object({}) do |(gem_names, dependencies), values|
           Array(gem_names).each do |gem_name|
-            @values[gem_name.to_s] = dependencies
+            values[gem_name.to_s] = dependencies
+          end
+        end
+
+        # Let's build the worst dependency resolver in the history of mankind, right in an initialize method
+        # TODO kill everyone who sees this
+        until (@gems_to_postprocess = @values.select { |gem_name, dependencies| dependencies[:gems] }).empty? do
+          @gems_to_postprocess.each do |gem_name, dependencies|
+            # We could already be done since multiple gems can have a reference to the same dependencies, when specified as an array of keys in GEM_DEPENDENCIES
+            next unless dependencies[:gems]
+
+            # Add the dependencies' dependencies, be they gems or packages
+            dependencies[:gems].dup.each do |dep_name|
+              @values[gem_name][:gems].delete(dep_name)
+              @values[gem_name][:gems] += @values[dep_name][:gems] if @values[dep_name][:gems]
+              @values[gem_name].deep_merge!(@values[dep_name])
+            end
+
+            @values[gem_name].delete :gems
           end
         end
       end
     end
-
   end
 end

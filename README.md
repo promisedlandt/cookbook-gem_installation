@@ -1,4 +1,4 @@
-# gem_installation
+# Description
 
 Provides a set of LWRPs to install ruby gems and/or their package dependencies, before or during convergence.  
 If you are sick and tired of manually installing libxml2-dev and libxslt-dev, this cookbook is dedicated to you.
@@ -7,23 +7,26 @@ Does not install the rubygems binary.
 
 You probably don't want to use this, it's not well done and semi abandoned, but I haven't found a better solution yet.
 
+# Update notes from previous versions
+
+ * You must include the `gem_installation::default` recipe now. This is the sad result of some internal rejiggering
+
 # Warning
 
-Currently, the prequisites are hardcoded in libraries/gem_installation.rb
+Currently, the prerequisites are hardcoded in libraries/gem_installation.rb
 
 While a solution utilizing a dependency resolver would be great, for now this is much better than nothing, and the LWRP interface is unlikely to change anyway.
 
 # Platforms
 
-Tested on Ubuntu and Debian. Check [.kitchen.yml](https://github.com/promisedlandt/cookbook-gem_installation/blob/master/.kitchen.yml) for the exact versions tested.
-
-# Requirements
-
-Chef 11
+Ubuntu and Debian. Check [.kitchen.yml](https://github.com/promisedlandt/cookbook-gem_installation/blob/master/.kitchen.yml) for the exact versions tested.
 
 # Examples
 
 ```
+# Set up everything this cookbook needs
+include_recipe "gem_installation::default"
+
 # Install fog before convergence so you can use it in your chef recipes
 gem_installation "fog"
 
@@ -47,7 +50,9 @@ end
 
 ## gem_installation::default
 
-Includes the apt cookbook (if running on debian-ish).
+Installs the [deep_merge](https://github.com/danielsdeleo/deep_merge) gem, which this cookbook depends on.
+
+Also includes build-essential, so you're able to build native extensions.
 
 # Attributes
 
@@ -89,5 +94,5 @@ gem_name | Dependencies of this gem will be installed | String | name
 
 Name | Description | Default
 -----|-------------|--------
-install | Installs prequisites during convergence | yes
-install_before_convergence | Installs prequisites before convergence |
+install | Installs prerequisites during convergence | yes
+install_before_convergence | Installs prerequisites before convergence |
