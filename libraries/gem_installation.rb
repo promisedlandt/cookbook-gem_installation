@@ -8,7 +8,7 @@ module GemInstallation
         %w(debian ubuntu) => {
           "default" => %w(libxslt-dev libxml2-dev)
         }
-      },
+      }
     }.freeze
 
     def dependencies_for_gem(gem_name)
@@ -35,6 +35,7 @@ module GemInstallation
 
       # Let's build the worst dependency resolver in the history of mankind, right in an initialize method
       # TODO kill everyone who sees this
+      # rubocop:disable MethodLength
       def solve_dependency_hash(dependency_hash)
         result = dependency_hash.each_with_object({}) do |(gem_names, dependencies), values|
           Array(gem_names).each do |gem_name|
@@ -60,6 +61,7 @@ module GemInstallation
 
         result
       end
+      # rubocop:enable MethodLength
     end
   end
 end
