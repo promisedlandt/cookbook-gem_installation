@@ -30,29 +30,35 @@ module GemInstallation
       def initialize(dependency_hash)
         require "deep_merge" # not pretty, but doesn't even register compared to the resolver shit
 
-        @values = dependency_hash.each_with_object({}) do |(gem_names, dependencies), values|
+        @values = solve_dependency_hash(dependency_hash)
+      end
+
+      # Let's build the worst dependency resolver in the history of mankind, right in an initialize method
+      # TODO kill everyone who sees this
+      def solve_dependency_hash(dependency_hash)
+        result = dependency_hash.each_with_object({}) do |(gem_names, dependencies), values|
           Array(gem_names).each do |gem_name|
             values[gem_name.to_s] = dependencies
           end
         end
 
-        # Let's build the worst dependency resolver in the history of mankind, right in an initialize method
-        # TODO kill everyone who sees this
-        until (@gems_to_postprocess = @values.select { |gem_name, dependencies| dependencies[:gems] }).empty? do
-          @gems_to_postprocess.each do |gem_name, dependencies|
+        until (gems_to_postprocess = result.select { |gem_name, dependencies| dependencies[:gems] }).empty?
+          gems_to_postprocess.each do |gem_name, dependencies|
             # We could already be done since multiple gems can have a reference to the same dependencies, when specified as an array of keys in GEM_DEPENDENCIES
             next unless dependencies[:gems]
 
             # Add the dependencies' dependencies, be they gems or packages
             dependencies[:gems].dup.each do |dep_name|
-              @values[gem_name][:gems].delete(dep_name)
-              @values[gem_name][:gems] += @values[dep_name][:gems] if @values[dep_name][:gems]
-              @values[gem_name].deep_merge!(@values[dep_name])
+              result[gem_name][:gems].delete(dep_name)
+              result[gem_name][:gems] += result[dep_name][:gems] if result[dep_name][:gems]
+              result[gem_name].deep_merge!(result[dep_name])
             end
 
-            @values[gem_name].delete :gems
+            result[gem_name].delete :gems
           end
         end
+
+        result
       end
     end
   end

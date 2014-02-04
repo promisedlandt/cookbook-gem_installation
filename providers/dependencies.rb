@@ -4,6 +4,8 @@ action :install do
   dependencies_for_gem(new_resource.gem_name).each do |dependency|
     package dependency
   end
+
+  new_resource.updated_by_last_action(true)
 end
 
 action :install_before_convergence do
@@ -11,7 +13,7 @@ action :install_before_convergence do
 
   unless dependencies.empty?
     # TODO find out how to access recipe resource collection in provider
-    #resources(:execute => "apt-get-update").run_action(:run) if platform_family?("debian")
+    # resources(:execute => "apt-get-update").run_action(:run) if platform_family?("debian")
     execute "apt-get update" do
       command "apt-get update"
       ignore_failure true
@@ -24,4 +26,6 @@ action :install_before_convergence do
       end.run_action(:install)
     end
   end
+
+  new_resource.updated_by_last_action(true)
 end
