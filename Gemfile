@@ -4,7 +4,6 @@ gem "berkshelf"
 gem "rake"
 
 group :integration do
-  gem "stove", github: "sethvargo/stove"
   gem "foodcritic"
   gem "rubocop"
   gem "test-kitchen"
