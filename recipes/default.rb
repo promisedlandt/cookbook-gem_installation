@@ -1,6 +1,6 @@
 include_recipe "apt" if platform_family?("debian")
 
-node.set["build_essential"]["compile_time"] = true
+node.set["build-essential"]["compile_time"] = true
 include_recipe "build-essential"
 
 chef_gem "deep_merge" do
