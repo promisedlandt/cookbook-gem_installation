@@ -1,4 +1,4 @@
-module GemInstallation
+module GemInstallationLibrary
   module Dependencies
     GEM_DEPENDENCIES = {
       %w(fog bitlbee_config) => {

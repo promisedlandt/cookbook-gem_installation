@@ -1,4 +1,4 @@
-include ::GemInstallation::Dependencies
+include ::GemInstallationLibrary::Dependencies
 
 action :install do
   dependencies_for_gem(new_resource.gem_name).each do |dependency|
