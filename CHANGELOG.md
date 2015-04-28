@@ -1,3 +1,11 @@
+1.1.1 (2015-04-28)
+------------------
+
+Fixes
+
+  * Fix "duplicate definition" warning, thanks to dblessing
+  * RuboCop
+
 1.1.0 (2015-04-28)
 ------------------
 
