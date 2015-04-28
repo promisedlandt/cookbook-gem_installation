@@ -1,12 +1,13 @@
 AllCops:
-  Includes:
+  Include:
     - Guardfile
-  Excludes:
+  Exclude:
+    - metadata.rb
     - tmp/**
 
 CollectionMethods:
   PreferredMethods:
-  Enabled: false
+    Enabled: false
     #collect: 'collect'
     #collect!: 'collect!'
     #inject: 'inject'

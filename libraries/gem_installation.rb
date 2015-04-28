@@ -35,7 +35,7 @@ module GemInstallationLibrary
 
       # Let's build the worst dependency resolver in the history of mankind, right in an initialize method
       # TODO kill everyone who sees this
-      # rubocop:disable MethodLength
+      # rubocop:disable MethodLength,AbcSize
       def solve_dependency_hash(dependency_hash)
         result = dependency_hash.each_with_object({}) do |(gem_names, dependencies), values|
           Array(gem_names).each do |gem_name|
@@ -43,7 +43,7 @@ module GemInstallationLibrary
           end
         end
 
-        until (gems_to_postprocess = result.select { |gem_name, dependencies| dependencies[:gems] }).empty?
+        until (gems_to_postprocess = result.select { |_gem_name, dependencies| dependencies[:gems] }).empty?
           gems_to_postprocess.each do |gem_name, dependencies|
             # We could already be done since multiple gems can have a reference to the same dependencies, when specified as an array of keys in GEM_DEPENDENCIES
             next unless dependencies[:gems]
@@ -61,7 +61,7 @@ module GemInstallationLibrary
 
         result
       end
-      # rubocop:enable MethodLength
+      # rubocop:enable MethodLength,AbcSize
     end
   end
 end
