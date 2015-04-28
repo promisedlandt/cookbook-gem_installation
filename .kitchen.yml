@@ -6,15 +6,53 @@ driver:
   name: vagrant
 
 platforms:
-- name: debian-6.0.10
-- name: debian-7.8.0
-- name: ubuntu-10.04
-- name: ubuntu-12.04
-- name: ubuntu-12.10
-- name: ubuntu-13.04
-- name: ubuntu-13.10
-- name: ubuntu-14.04
-- name: ubuntu-14.10
+<% %w(11.0.0 12.1.0).each do |chef_version| %>
+- name: debian-6.0.10-<%= chef_version %>-g_i
+  driver_config:
+    box: opscode-debian-6.0.10
+    box_url: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_debian-6.0.10_chef-provisionerless.box
+    require_chef_omnibus: <%= chef_version %>
+- name: debian-7.8-<%= chef_version %>-g_i
+  driver_config:
+    box: opscode-debian-7.8
+    box_url: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_debian-7.8_chef-provisionerless.box
+    require_chef_omnibus: <%= chef_version %>
+- name: ubuntu-10.04-<%= chef_version %>-g_i
+  driver_config:
+    box: opscode-ubuntu-10.04
+    box_url: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-10.04_chef-provisionerless.box
+    require_chef_omnibus: <%= chef_version %>
+- name: ubuntu-12.04-<%= chef_version %>-g_i
+  driver_config:
+    box: opscode-ubuntu-12.04
+    box_url: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-12.04_chef-provisionerless.box
+    require_chef_omnibus: <%= chef_version %>
+- name: ubuntu-12.10-<%= chef_version %>-g_i
+  driver_config:
+    box: opscode-ubuntu-12.10
+    box_url: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-12.10_chef-provisionerless.box
+    require_chef_omnibus: <%= chef_version %>
+- name: ubuntu-13.04-<%= chef_version %>-g_i
+  driver_config:
+    box: opscode-ubuntu-13.04
+    box_url: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-13.04_chef-provisionerless.box
+    require_chef_omnibus: <%= chef_version %>
+- name: ubuntu-13.10-<%= chef_version %>-g_i
+  driver_config:
+    box: opscode-ubuntu-13.10
+    box_url: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-13.10_chef-provisionerless.box
+    require_chef_omnibus: <%= chef_version %>
+- name: ubuntu-14.04-<%= chef_version %>-g_i
+  driver_config:
+    box: opscode-ubuntu-14.04
+    box_url: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-14.04_chef-provisionerless.box
+    require_chef_omnibus: <%= chef_version %>
+- name: ubuntu-14.10-<%= chef_version %>-g_i
+  driver_config:
+    box: opscode-ubuntu-14.10
+    box_url: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-14.10_chef-provisionerless.box
+    require_chef_omnibus: <%= chef_version %>
+<% end %>
 
 suites:
   - name: default
