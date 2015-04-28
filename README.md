@@ -15,7 +15,7 @@ You probably don't want to use this, it's not well done and semi abandoned, but 
 
 Currently, the prerequisites are hardcoded in libraries/gem_installation.rb
 
-While a solution utilizing a dependency resolver would be great, for now this is much better than nothing, and the LWRP interface is unlikely to change anyway.
+While a solution utilizing a dependency solver would be great, for now this is much better than nothing, and the LWRP interface is unlikely to change anyway.
 
 # Platforms
 
@@ -72,6 +72,7 @@ Deals with gem installation, including dependencies
 Attribute | Description | Type | Default
 ----------|-------------|------|--------
 gem_name | Name of the gem to install | String | name
+compile_time | Same as the `compile_time` flag on chef_gem resource. Only works with `:install_before_convergence` action | Boolean | true
 
 ### Actions
 

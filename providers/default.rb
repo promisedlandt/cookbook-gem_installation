@@ -14,7 +14,9 @@ action :install_before_convergence do
   end.run_action(:install_before_convergence)
 
   # gem installation before convergence
-  chef_gem new_resource.gem_name
+  chef_gem new_resource.gem_name do
+    compile_time new_resource.compile_time if Chef::Resource::ChefGem.method_defined?(:compile_time)
+  end
   require new_resource.gem_name
 
   new_resource.updated_by_last_action(true)
