@@ -1,15 +1,17 @@
 module GemInstallationLibrary
   module Dependencies
-    GEM_DEPENDENCIES = {
-      %w(fog bitlbee_config) => {
-        gems: %w(nokogiri)
-      },
-      "nokogiri" => {
-        %w(debian ubuntu) => {
-          "default" => %w(libxslt-dev libxml2-dev)
+    unless defined?(GEM_DEPENDENCIES)
+      GEM_DEPENDENCIES = {
+        %w(fog bitlbee_config) => {
+          gems: %w(nokogiri)
+        },
+        "nokogiri" => {
+          %w(debian ubuntu) => {
+            "default" => %w(libxslt-dev libxml2-dev)
+          }
         }
-      }
-    }.freeze
+      }.freeze
+    end
 
     def dependencies_for_gem(gem_name)
       if gem_dependencies.values.keys.include?(gem_name)
